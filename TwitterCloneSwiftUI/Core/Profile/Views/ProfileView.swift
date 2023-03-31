@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @State private var selectedFilter: TweetFilterViewModel = .tweets
-    @Namespace var animation
+    @Environment(\.dismiss) private var mode   //
+    @Namespace private var animation
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,6 +39,7 @@ struct ProfileView_Previews: PreviewProvider {
 
 //Extension (расширение) структуры ProfileViewб (более удобно читать код)
 extension ProfileView {
+    
     //Синий фон + кнопка назад + фотография пользователя (аккаунта)
     var headerView: some View {
         ZStack(alignment: .bottomLeading) {
@@ -49,7 +51,7 @@ extension ProfileView {
             VStack {
                 //Кнопка назад
                 Button {
-                    //Действие
+                    mode()
                 } label: {
                     Image(systemName: "arrow.left")
                         .resizable()
