@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var selectedFilter: TweetFilterViewModel = .tweets
-    @Environment(\.dismiss) private var mode   //
+    @State private var selectedFilter: TweetFilterViewModel = .tweets   
+    @Environment(\.dismiss) private var mode
     @Namespace private var animation
     
     var body: some View {
@@ -133,28 +133,8 @@ extension ProfileView {
             .foregroundColor(.gray)
                 
             //Количество подписок и подписчиков
-            HStack (spacing: 24) {
-                //Количество подписок
-                HStack(spacing: 4) {
-                    Text("807")
-                        .font(.subheadline)
-                        .bold()
-                    Text("Following")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                
-                //Количество подписчиков
-                HStack(spacing: 4) {
-                    Text("6.9M")
-                        .font(.subheadline)
-                        .bold()
-                    Text("Followers")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-            }
-            .padding(.vertical)
+            UserStatsView()
+                .padding(.vertical)
         }
         .padding(.horizontal)
     }
@@ -169,6 +149,7 @@ extension ProfileView {
                         .fontWeight(selectedFilter == item ? .semibold : .regular)  //Если элемент выбран то применяем semibold иначе regular
                         .foregroundColor(selectedFilter == item ? .black : .gray)   //Если элемент выбран то применяем черный цвет иначе серый цвет
                     
+                    //Подчёркивание выбранного элемента
                     if selectedFilter == item {
                         Capsule()
                             .foregroundColor(Color(.systemBlue))
@@ -181,6 +162,7 @@ extension ProfileView {
                     }
                 }
                 .onTapGesture {
+                    //Анимация смены выбранного элемента
                     withAnimation(.easeOut) {
                         self.selectedFilter = item
                     }
@@ -192,6 +174,7 @@ extension ProfileView {
     
     
     var tweetView: some View {
+        //Скролл всех твитов
         ScrollView {
             LazyVStack {
                 ForEach(0...9, id: \.self) { _ in
