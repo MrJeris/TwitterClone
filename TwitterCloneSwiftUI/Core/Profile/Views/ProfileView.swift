@@ -57,8 +57,8 @@ extension ProfileView {
                         .resizable()
                         .frame(width: 20, height: 16)
                         .foregroundColor(.white)
-                        .offset(x: 16, y: 12)
                 }
+                .offset(x: 16, y: 12)
                 
                 //Фотография пользователя
                 Circle()
