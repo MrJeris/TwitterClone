@@ -8,13 +8,69 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @State private var email = ""
+    @State private var username = ""
+    @State private var fullname = ""
+    @State private var password = ""
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            AuthHeaderView(title1: "Get started.", title2: "Create your account")
+            
+            VStack(spacing: 40) {
+                CustomInputField(imageName: "envelope",
+                                 placeHolderText: "Email",
+                                 text: $email)
+                
+                CustomInputField(imageName: "person",
+                                 placeHolderText: "Username",
+                                 text: $password)
+                
+                CustomInputField(imageName: "person",
+                                 placeHolderText: "Full name",
+                                 text: $email)
+                
+                CustomInputField(imageName: "lock",
+                                 placeHolderText: "Password",
+                                 text: $email)
+            }
+            .padding(32)
+            
+            Button {
+                print("Sign up here...")
+            } label: {
+                Text("Sign In")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(width: 340, height: 50)
+                    .background(Color(.systemBlue))
+                    .clipShape(Capsule())
+            }
+            .shadow(color: .gray.opacity(0.5), radius: 10)
+            
+            Spacer()
+            
+            Button {
+                dismiss()
+            } label: {
+                HStack {
+                    Text("Already have an account?")
+                        .font(.footnote)
+                    
+                    Text("Sign In")
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                }
+            }
+            .padding(.bottom, 32)
+        }
+        .ignoresSafeArea()
     }
-}
-
-struct RegistrationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegistrationView()
+    
+    struct RegistrationView_Previews: PreviewProvider {
+        static var previews: some View {
+            RegistrationView()
+        }
     }
 }
