@@ -25,6 +25,7 @@ struct LoginView: View {
                 
                 CustomInputField(imageName: "lock",
                                  placeHolderText: "Password",
+                                 isSecureField: true,
                                  text: $password)
             }
             .padding(.horizontal, 32)
