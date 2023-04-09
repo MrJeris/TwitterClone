@@ -27,6 +27,7 @@ struct AuthHeaderView: View {
         .background(Color(.systemBlue))
         .foregroundColor(.white)
         .clipShape(RoundedShape(corners: [.bottomRight]))
+        .ignoresSafeArea()
     }
 }
 

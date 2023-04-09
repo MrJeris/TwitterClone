@@ -10,6 +10,8 @@ import Firebase
 
 class AuthViewModel: ObservableObject {
     @Published var userSession: Firebase.User?
+    @Published var didAuthenticateUser = false
+    private var tempUserSession: Firebase.User?
     
     init() {
         self.userSession = Auth.auth().currentUser
@@ -40,10 +42,8 @@ class AuthViewModel: ObservableObject {
             }
             
             guard let user = result?.user else { return }
-            self.userSession = user
             
-            print("DEBUG: Register user successfully")
-            print("DEBUG: User is \(self.userSession)")
+            self.tempUserSession = user
             
             
             let data = ["email": email,
@@ -55,6 +55,7 @@ class AuthViewModel: ObservableObject {
                 .document(user.uid)
                 .setData(data) { _ in
                     print("DEBUG: Did upload user data...")
+                    self.didAuthenticateUser = true
                 }
         }
     }
@@ -64,5 +65,17 @@ class AuthViewModel: ObservableObject {
         userSession = nil
         //Выход из аккаунта на сервере/бекенде (Firebase)
         try? Auth.auth().signOut()
+    }
+    
+    func uploadProfileImage(_ image: UIImage) {
+        guard let uid = tempUserSession?.uid else { return }
+        
+        ImageUploader.uploadImage(image: image) { profileImageUrl in
+            Firestore.firestore().collection("user")
+                .document(uid)
+                .updateData(["profileImageUrl:": profileImageUrl]) { _ in
+                    self.userSession = self.tempUserSession
+                }
+        }
     }
 }
